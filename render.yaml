@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: webyalaya-backend
+    env: docker
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PORT
+        value: "4000"
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        value: https://webyalaya-assignment.vercel.app
+    healthCheckPath: /notes

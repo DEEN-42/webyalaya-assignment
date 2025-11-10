@@ -3,14 +3,14 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files from backend directory
+# Copy package files (assumes build context is backend/)
 COPY backend/package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
-# Copy source code from backend directory
-COPY backend/ .
+# Copy source code
+COPY . .
 
 # Build the application
 RUN npm run build
@@ -20,16 +20,16 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY backend/package*.json ./
+ENV NODE_ENV=production
 
-# Install only production dependencies
-RUN npm install --only=production
+# Copy package files and install only production dependencies
+COPY backend/package*.json ./
+RUN npm ci --omit=dev
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
 
-# Expose port
+# Expose port expected by the app
 EXPOSE 4000
 
 # Start the application
