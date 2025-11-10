@@ -221,21 +221,53 @@ docker compose down -v
    - Click the "Get AI Summary" button on any note
    - View the generated summary with character count
 
+## Deployment
+
+For detailed deployment instructions to platforms like Vercel, Netlify, Render, Railway, or Heroku, see **[DEPLOYMENT.md](./DEPLOYMENT.md)**.
+
+**Quick Summary:**
+1. Deploy backend to Render/Railway/Heroku
+2. Note the backend URL (e.g., `https://your-api.onrender.com`)
+3. Deploy frontend to Vercel/Netlify with environment variable:
+   - `NEXT_PUBLIC_API_URL` = your backend URL
+4. Update backend CORS_ORIGIN with your frontend URL
 
 ## Environment Variables
 
 ### Backend
-No environment variables required for basic setup.
 
-Optional:
-- PORT: Server port (default: 4000)
-- NODE_ENV: Environment mode
+Create a `.env` file in the `backend` directory (or use `.env.example` as template):
+
+```env
+# Server Configuration
+PORT=4000
+NODE_ENV=development
+
+# CORS Configuration
+# For local development:
+CORS_ORIGIN=http://localhost:3000
+
+# For production (comma-separated for multiple origins):
+# CORS_ORIGIN=https://your-app.vercel.app,https://your-app.netlify.app
+```
 
 ### Frontend
-Create .env.local in frontend directory:
-```
+
+Create a `.env.local` file in the `frontend` directory (or use `.env.example` as template):
+
+```env
+# Backend API URL
+# For local development:
 NEXT_PUBLIC_API_URL=http://localhost:4000
+
+# For production:
+# NEXT_PUBLIC_API_URL=https://your-backend-api.com
 ```
+
+**Important:** 
+- Frontend environment variables MUST start with `NEXT_PUBLIC_` to be accessible in the browser
+- Never commit `.env` or `.env.local` files to git (they're already in `.gitignore`)
+- For deployment, see `DEPLOYMENT.md` for platform-specific instructions
 
 ## Known Limitations
 

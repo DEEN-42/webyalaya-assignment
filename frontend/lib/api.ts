@@ -1,12 +1,9 @@
-// Use window.location to dynamically determine the API URL
-// This works both in Docker and local development
+// Get API URL from environment variable
+// NEXT_PUBLIC_ prefix makes it available in the browser
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 const getApiUrl = () => {
-  if (typeof window !== 'undefined') {
-    // Client-side: use localhost with port 4000
-    return 'http://localhost:4000';
-  }
-  // Server-side: use environment variable
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+  return API_URL;
 };
 
 export const api = {
