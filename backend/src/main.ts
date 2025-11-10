@@ -9,14 +9,16 @@ async function bootstrap() {
   const corsOrigin = process.env.CORS_ORIGIN 
     ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
     : ['http://localhost:3000', 'http://frontend:3000'];
-
+  
+  // In development, allow all origins; in production use specified origins
+  const corsConfig = process.env.NODE_ENV === 'production'
+    ? { origin: corsOrigin, credentials: true }
+    : { origin: true, credentials: true }; // Allow all in dev
+  
   app.enableCors({
-    origin: corsOrigin,
+    ...corsConfig,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
-
-  const port = Number(process.env.PORT || 4000);
+  });  const port = Number(process.env.PORT || 4000);
   await app.listen(port, '0.0.0.0');
   console.log(`🚀 Backend is running on port ${port}`);
 }
