@@ -191,22 +191,22 @@ Content-Type: application/json
 
 ```bash
 # Build and start all services
-docker-compose up --build
+docker compose up --build
 
 # Start services (without rebuild)
-docker-compose up
+docker compose up
 
 # Start in detached mode
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop all services
-docker-compose down
+docker compose down
 
 # Remove volumes
-docker-compose down -v
+docker compose down -v
 ```
 
 ## Testing the Application
